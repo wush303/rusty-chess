@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+
 #[derive(Copy, Clone)]
 pub enum Piece {
     King,
@@ -8,7 +10,7 @@ pub enum Piece {
     Pawn,
 }
 
-#[derive(PartialEq, Eq, Copy, Clone)]
+#[derive(PartialEq, Eq, Copy, Clone, Serialize, Deserialize, Debug)]
 pub enum Color {
     White,
     Black,

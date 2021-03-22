@@ -10,15 +10,14 @@ pub enum ToLobby {
 }
 
 pub enum FromLobby {
-    Accepted(Sender<super::msg::ToGame>, Receiver<super::msg::FromGame>),
+    Accepted(Sender<super::msg::ToGame>, Receiver<super::msg::FromGame>, super::chess::Color),
     Rejected,
 }
 
-#[derive(Serialize, Deserialize)]
-#[serde(tag = "t", content = "c")]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum ToGame {
-    MovePiece(game::Move),
-    Disconnect,
+    MovePiece(game::Move, super::chess::Color),
+    Disconnect(super::chess::Color),
 }
 
 #[derive(Clone)]
@@ -26,4 +25,5 @@ pub enum FromGame {
     Hello(String),
     Fen(String),
     Disconnect,
+    Win,
 }

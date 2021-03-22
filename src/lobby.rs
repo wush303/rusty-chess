@@ -13,7 +13,6 @@ pub async fn lobby_loop(mut rx: Receiver<super::msg::ToLobby>) {
 
 
     while let Some(msg) = rx.next().await {
-        println!("{}", queue.len());
         match msg {
             super::msg::ToLobby::Join(greet_tx) => {
                 
@@ -21,7 +20,6 @@ pub async fn lobby_loop(mut rx: Receiver<super::msg::ToLobby>) {
                 println!("user joined");
                 if queue.len() == 1 && queue[0].is_closed() {
                     queue.pop(); 
-                    println!("hello");
                 }
 
                 //add new user to queue
@@ -34,13 +32,14 @@ pub async fn lobby_loop(mut rx: Receiver<super::msg::ToLobby>) {
 
                     let (to_black_tx, to_black_rx) = unbounded();
                     let (to_white_tx, to_white_rx) = unbounded();
-                    let (from_black_tx, from_black_rx) = unbounded();
-                    let (from_white_tx, from_white_rx) = unbounded();
+                    let (from_players_tx, from_players_rx) = unbounded();
 
-                    white_great.unbounded_send(msg::FromLobby::Accepted(from_white_tx, to_white_rx));
-                    black_great.unbounded_send(msg::FromLobby::Accepted(from_black_tx, to_black_rx));
+                    white_great.unbounded_send(
+                        msg::FromLobby::Accepted(from_players_tx.clone(), to_white_rx, super::chess::Color::White));
+                    black_great.unbounded_send(
+                        msg::FromLobby::Accepted(from_players_tx, to_black_rx, super::chess::Color::Black));
 
-                    tokio::task::spawn(game::run_game(to_black_tx, to_white_tx, from_black_rx, from_white_rx));
+                    tokio::task::spawn(game::run_game(to_black_tx, to_white_tx, from_players_rx));
                     println!("created new game");
                 }
             },

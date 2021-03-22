@@ -55,7 +55,7 @@ pub async fn player_joined(ws: WebSocket, mut to_lobby: Sender<super::msg::ToLob
             }
             gr = greet_rx.next() => {
                 greet_answer = match gr.expect("Receive answer to join request") {
-                    msg::FromLobby::Accepted(to_game, from_game) => Some((to_game, from_game)),
+                    msg::FromLobby::Accepted(to_game, from_game, turn) => Some((to_game, from_game, turn)),
                     msg::FromLobby::Rejected => None,
                 };
                 break;
@@ -65,7 +65,7 @@ pub async fn player_joined(ws: WebSocket, mut to_lobby: Sender<super::msg::ToLob
     }
 
     //tick with each new message:
-    while let Some((ref to_game, ref mut from_game)) = greet_answer {
+    while let Some((ref to_game, ref mut from_game, me)) = greet_answer {
         select! {
             msg = player_ws_rx.next() => {
                 let msg = match msg.unwrap() {
@@ -81,7 +81,14 @@ pub async fn player_joined(ws: WebSocket, mut to_lobby: Sender<super::msg::ToLob
                if msg.is_text() {
                     //parse the message because it's text
                    match serde_json::from_str(msg.to_str().unwrap()) {
-                       Ok(m) => to_game.unbounded_send(m).expect("send message to game"),
+                       Ok(m) => {
+                           match m {
+                               msg::ToGame::MovePiece(mo, _) =>
+                                   to_game.unbounded_send(msg::ToGame::MovePiece(mo, me)).expect("send move piece to game"),
+                               _ => 
+                                   to_game.unbounded_send(m).expect("send message to game"),
+                           }
+                       },
                        Err(e) => eprintln!("error: {}", e),
                    }                    
                 } else if msg.is_close() {
@@ -111,6 +118,9 @@ pub async fn player_joined(ws: WebSocket, mut to_lobby: Sender<super::msg::ToLob
                         //break when server closes
                         break;
                     }
+                    msg::FromGame::Win => {
+                        println!("{:?} wins", me);
+                    }
                 }
             }
         
@@ -119,9 +129,9 @@ pub async fn player_joined(ws: WebSocket, mut to_lobby: Sender<super::msg::ToLob
 
     //if game hasn't closed, close the connection
     match greet_answer {
-        Some((mut to_game, _)) => {
+        Some((mut to_game, _, me)) => {
             to_game
-                .unbounded_send(super::msg::ToGame::Disconnect).expect("what")
+                .unbounded_send(super::msg::ToGame::Disconnect(me)).expect("what")
         },
         None => println!("user left the queue"),
     }
