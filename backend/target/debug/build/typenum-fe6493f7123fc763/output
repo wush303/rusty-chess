@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/Users/feri/Documents/Programming/warptest/target/debug/build/typenum-fe6493f7123fc763/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/Users/feri/Documents/Programming/warptest/target/debug/build/typenum-fe6493f7123fc763/out/op.rs

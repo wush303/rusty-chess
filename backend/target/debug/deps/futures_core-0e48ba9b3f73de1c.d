@@ -1,0 +1,11 @@
+/Users/feri/Documents/Programming/chess/target/debug/deps/futures_core-0e48ba9b3f73de1c.rmeta: /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/lib.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/future.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/stream.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/mod.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/poll.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/__internal/mod.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/__internal/atomic_waker.rs
+
+/Users/feri/Documents/Programming/chess/target/debug/deps/futures_core-0e48ba9b3f73de1c.d: /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/lib.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/future.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/stream.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/mod.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/poll.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/__internal/mod.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/__internal/atomic_waker.rs
+
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/lib.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/future.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/stream.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/mod.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/poll.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/__internal/mod.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.13/src/task/__internal/atomic_waker.rs:

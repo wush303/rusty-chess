@@ -1,0 +1,13 @@
+/Users/feri/Documents/Programming/chess/target/debug/deps/tracing-3d3634c9ecb18fe2.rmeta: /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/lib.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/macros.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/dispatcher.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/field.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/instrument.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/level_filters.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/span.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/stdlib.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/subscriber.rs
+
+/Users/feri/Documents/Programming/chess/target/debug/deps/tracing-3d3634c9ecb18fe2.d: /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/lib.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/macros.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/dispatcher.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/field.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/instrument.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/level_filters.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/span.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/stdlib.rs /Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/subscriber.rs
+
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/lib.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/macros.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/dispatcher.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/field.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/instrument.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/level_filters.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/span.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/stdlib.rs:
+/Users/feri/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.24/src/subscriber.rs:
