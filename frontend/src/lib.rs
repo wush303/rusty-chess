@@ -1,5 +1,6 @@
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;
+use chess;
 
 struct Model {
     link: ComponentLink<Self>,
@@ -16,13 +17,13 @@ impl Component for Model {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
             link,
-            value: 0,
+            value: 1,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::AddOne => self.value += 1
+            Msg::AddOne => self.value += self.value
         }
         true
     }
@@ -37,7 +38,7 @@ impl Component for Model {
     fn view(&self) -> Html {
         html! {
             <div>
-                <button onclick=self.link.callback(|_| Msg::AddOne)>{ "+1" }</button>
+                <button onclick=self.link.callback(|_| Msg::AddOne)>{ "double" }</button>
                 <p>{ self.value }</p>
             </div>
         }
