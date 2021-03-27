@@ -23,7 +23,7 @@ async fn main() {
 
 
     let index = warp::path("play")
-        .and(warp::fs::dir("static"));
+        .and(warp::fs::dir("../static"));
 
     let routes = index.or(game_filter);
 
