@@ -2,6 +2,8 @@ use wasm_bindgen::prelude::*;
 use yew::prelude::*;
 use chess;
 
+use msg;
+
 struct Model {
     link: ComponentLink<Self>,
     value: i64,

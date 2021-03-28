@@ -3,14 +3,12 @@ use futures::channel::oneshot;
 use serde::{Deserialize, Serialize};
 use chess::{Board, Color, ChessMove, Game as ChessGame};
 
-use super::game;
-
 pub enum ToLobby {
-    Join(Sender<super::msg::FromLobby>),
+    Join(Sender<FromLobby>),
 }
 
 pub enum FromLobby {
-    Accepted(Sender<ToGameWrap>, Receiver<super::msg::FromGame>, chess::Color),
+    Accepted(Sender<ToGameWrap>, Receiver<FromGame>, chess::Color),
     Rejected,
 }
 

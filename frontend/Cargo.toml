@@ -13,3 +13,6 @@ crate-type = ["cdylib", "rlib"]
 yew = "0.17"
 wasm-bindgen = "0.2.67"
 chess = "*"
+
+[dependencies.msg]
+path = "../msg"

@@ -216,6 +216,7 @@ name = "frontend"
 version = "0.1.0"
 dependencies = [
  "chess",
+ "msg",
  "wasm-bindgen",
  "yew",
 ]
@@ -663,6 +664,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b9f1c5b025cda876f66ef43a113f91ebc9f4ccef34843000e0adf6ebbab84e21"
 dependencies = [
  "winapi",
+]
+
+[[package]]
+name = "msg"
+version = "0.1.0"
+dependencies = [
+ "chess",
+ "futures",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -1387,6 +1398,7 @@ version = "0.1.0"
 dependencies = [
  "chess",
  "futures",
+ "msg",
  "serde",
  "serde_json",
  "tokio",

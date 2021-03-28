@@ -1,7 +1,8 @@
 use futures::channel::mpsc::{unbounded, UnboundedSender as Sender};
 use warp::Filter;
 
-mod msg;
+use msg;
+
 mod lobby;
 mod player;
 mod game;
