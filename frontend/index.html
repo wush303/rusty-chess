@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+    <link rel="stylesheet" href="chessboardlib/css/chessboard-1.0.0.min.css" integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
+    <style>
+    #myBoard {
+        margin-left: auto;
+        margin-right: auto;
+     }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="chessjs/chess.js"></script>
+    <script type="text/javascript" src="chessboardlib/js/chessboard-1.0.0.js"></script>
+</head>
+<body>
+
+    <h1>Simple online chess</h1>
+    <div id="chat">
+            <p><em>Connecting...</em></p>
+        </div>
+    <div id="myBoard" style="width: 400px"></div>
+    <label>Status:</label>
+    <div id="status"></div>
+    <script type="text/javascript" src="index.js"></script>
+</body>
+</html>
