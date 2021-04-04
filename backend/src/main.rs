@@ -1,8 +1,7 @@
 use futures::channel::mpsc::{unbounded, UnboundedSender as Sender};
 use warp::Filter;
 
-use msg;
-
+mod msg;
 mod lobby;
 mod player;
 mod game;
@@ -23,8 +22,8 @@ async fn main() {
         },);
 
 
-    let index = warp::path("play")
-        .and(warp::fs::dir("../static"));
+    let index = warp::get()
+        .and(warp::fs::dir("frontend"));
 
     let routes = index.or(game_filter);
 

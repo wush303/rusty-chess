@@ -1,7 +1,5 @@
-use warp::ws::{Message};
 use futures::channel::mpsc::{unbounded, UnboundedSender as Sender, UnboundedReceiver as Receiver};
 use futures::{StreamExt};
-use futures::channel::oneshot;
 use chess::{Color};
 
 use super::msg;
@@ -36,10 +34,13 @@ pub async fn lobby_loop(mut rx: Receiver<super::msg::ToLobby>) {
                     let (to_white_tx, to_white_rx) = unbounded();
                     let (from_players_tx, from_players_rx) = unbounded();
 
+                    //let players now they have been accepted and give them channels
                     white_great.unbounded_send(
-                        msg::FromLobby::Accepted(from_players_tx.clone(), to_white_rx, Color::White));
+                        msg::FromLobby::Accepted(from_players_tx.clone(), to_white_rx, Color::White))
+                        .expect("Expected send to white");
                     black_great.unbounded_send(
-                        msg::FromLobby::Accepted(from_players_tx, to_black_rx, Color::Black));
+                        msg::FromLobby::Accepted(from_players_tx, to_black_rx, Color::Black))
+                        .expect("Expected send to black");
 
                     tokio::task::spawn(game::run_game(to_black_tx, to_white_tx, from_players_rx));
                     println!("created new game");

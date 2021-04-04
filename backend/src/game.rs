@@ -1,42 +1,28 @@
 use futures::channel::mpsc::{UnboundedReceiver as Receiver};
 use futures::{StreamExt};
-use tokio::select;
-use serde::{Deserialize, Serialize};
-use chess::{Game as ChessGame, Color, Square, ChessMove};
+use chess::{Game as ChessGame, Color, ChessMove};
+use std::str::FromStr;
 
 use super::msg;
 
-fn safe_make_square(sq: u8) -> Option<Square> {
-    if sq < 64 {
-        Some(unsafe { Square::new(sq) })
-    } else {
-        None
-    }
-}
-
-fn make_move(game_move: ChessMove, board: &mut ChessGame) {
-
-}
-
-
-
 fn broadcast(black: &super::player::Player, white: &super::player::Player, msg: msg::FromGame) {
-    black.unbounded_send(msg.clone());
-    white.unbounded_send(msg);
+    black.unbounded_send(msg.clone()).unwrap();
+    white.unbounded_send(msg).unwrap();
 }
+
+fn winner(black: &super::player::Player, white: &super::player::Player, who: Color) {
+    match who {
+        Color::White => black.unbounded_send(msg::FromGame::Win),
+        Color::Black => white.unbounded_send(msg::FromGame::Win),
+    }.unwrap();
+}
+
 
 pub async fn run_game(black: super::player::Player, white: super::player::Player, mut from_players: Receiver<super::msg::ToGameWrap>) {
-    black.unbounded_send(msg::FromGame::Hello("black".to_string()));
-    white.unbounded_send(msg::FromGame::Hello("white".to_string()));
-
+    black.unbounded_send(msg::FromGame::Hello("b".to_string())).unwrap();
+    white.unbounded_send(msg::FromGame::Hello("w".to_string())).unwrap();
 
     let mut game = ChessGame::new();
-    //let mut board = chess::Game { board: chess::INIT_BOARD, };
-    //println!("{}", board.get_fen());
-
-    let mut turn = Color::White;
-
-
     let mut is_finished = false;
 
     loop {
@@ -47,11 +33,10 @@ pub async fn run_game(black: super::player::Player, white: super::player::Player
         match msg {
             msg::ToGame::Disconnect => {
                 //if the game hasn't finished the game will finish
+
                 if !is_finished {
-                    match who {
-                        Color::White => black.unbounded_send(msg::FromGame::Win),
-                        Color::Black => white.unbounded_send(msg::FromGame::Win),
-                    };
+                    winner(&black, &white, who);
+                    println!("game will close");
                     is_finished = true;
                 } else {
                     println!("game will end");
@@ -59,30 +44,46 @@ pub async fn run_game(black: super::player::Player, white: super::player::Player
                 }
             },
             msg::ToGame::MovePiece(from, to) => { 
-                //println!("{:?} moved a piece {:?}", who, from);
-                //println!("{:?}", game.side_to_move());
-                if let (Some(from), Some(to)) = (safe_make_square(from), safe_make_square(to)) {
+                if let Ok(new_move) = ChessMove::from_str(&(from.to_string() + &to)) {
                     if game.side_to_move() == who {
-                        let new_move = ChessMove::new(from, to, None);
                         if game.current_position().legal(new_move) {
                             game.make_move(new_move);
-                            broadcast(&black, &white, msg::FromGame::NewBoard(game.current_position()));
-                            println!("message is good");
+                            broadcast(&black, &white, msg::FromGame::NewMove{f: from.to_string(), t: to.to_string()});
                         } else {
-                            println!("illegal move");
                             //handle illegal move
+                            let reason = format!("{:?} made an illegal move.", who);
+
+                            println!("{}", &reason);
+
+                            winner(&black, &white, who);
+
+                            game.resign(who);
+                            broadcast(&black, &white, msg::FromGame::Resign(reason));
                         }
                     } else {
                         //not the player who send the message's turn.
-                        println!("")
+                        let reason = format!("It's not: {:?} turn. Games done", who);
+
+                        println!("{}", &reason);
+
+                        winner(&black, &white, who);
+
+                        game.resign(who);
+                        broadcast(&black, &white, msg::FromGame::Resign(reason));
                     }
                     
                 } else {
                     //handle wrong formated move send from player
-                    println!("message is bad!");
+                    let reason = format!("Message from: {:?} was formated wrong. Games done", who);
+
+                    println!("{}", reason);
+
+                    winner(&black, &white, who);
+
+                    game.resign(who);
+                    broadcast(&black, &white, msg::FromGame::Resign(reason));
                 }
             }
-            _ => println!("fuck"),
         }
     }
 }

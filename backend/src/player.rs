@@ -1,8 +1,6 @@
 use futures::{FutureExt, StreamExt};
-use futures::channel::oneshot;
 use tokio::sync::{mpsc};
 use warp::ws::{Message, WebSocket};
-use uuid::Uuid;
 use futures::SinkExt;
 use tokio_stream::wrappers::UnboundedReceiverStream;
 use futures::channel::mpsc::{unbounded, UnboundedSender as Sender};
@@ -34,7 +32,8 @@ pub async fn player_joined(ws: WebSocket, mut to_lobby: Sender<super::msg::ToLob
     //send join message to game
     to_lobby
         .send(super::msg::ToLobby::Join(greet_tx))
-        .await;
+        .await
+        .expect("Expected message to be send to lobby");
 
     //get answer to join request
     let mut greet_answer = None;
@@ -56,7 +55,6 @@ pub async fn player_joined(ws: WebSocket, mut to_lobby: Sender<super::msg::ToLob
             gr = greet_rx.next() => {
                 greet_answer = match gr.expect("Receive answer to join request") {
                     msg::FromLobby::Accepted(to_game, from_game, turn) => Some((to_game, from_game, turn)),
-                    msg::FromLobby::Rejected => None,
                 };
                 break;
             }
@@ -97,23 +95,12 @@ pub async fn player_joined(ws: WebSocket, mut to_lobby: Sender<super::msg::ToLob
             }
             
             msg = from_game.next() => {
-                match msg.expect("expected this") {
-                    msg::FromGame::Hello(id) => {
-                        sender.send(Ok(Message::text(id)));
-                        //println!("hejsa ");
-                        
-                       //to_game.unbounded_send(msg::ToGame::Disconnect);
-                    }
-                    msg::FromGame::NewBoard(b) => {
-                        sender.send(Ok(Message::text("hello")));
-                    }
-                    msg::FromGame::Disconnect => {
-                        //break when server closes
-                        break;
-                    }
-                    msg::FromGame::Win => {
-                        println!("{:?} wins", me);
-                    }
+                match msg {
+                    Some(msg) => {
+                        sender.send(Ok(Message::text(serde_json::to_string(&msg).expect("serialize work"))))
+                            .expect("Expected message to be send to client websocket");
+                    },
+                    None => break,
                 }
             }
         
@@ -122,7 +109,7 @@ pub async fn player_joined(ws: WebSocket, mut to_lobby: Sender<super::msg::ToLob
 
     //if game hasn't closed, close the connection
     match greet_answer {
-        Some((mut to_game, _, me)) => {
+        Some((to_game, _, me)) => {
             to_game
                 .unbounded_send(super::msg::ToGameWrap(super::msg::ToGame::Disconnect, me)).expect("what")
         },
