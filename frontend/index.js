@@ -56,8 +56,11 @@ function updateStatus () {
         moveColor = 'Black'
     }
 
+    if (win == true) {
+        status = "You won. Reload to join new game"
+    }
     // checkmate?
-    if (game.in_checkmate()) {
+    else if (game.in_checkmate()) {
         status = 'Game over, ' + moveColor + ' is in checkmate. Reload to join new game'
     }
 
@@ -70,9 +73,6 @@ function updateStatus () {
         let winner = "White"
         if (resigned == "w") winner = "Black"
         status = resigned + ' has resigned. ' + winner + ' is the winner.'
-    }
-    else if (win == true) {
-        status = "You won"
     }
 
     // game still on
@@ -132,7 +132,6 @@ ws.onmessage = function(msg) {
         } else if (key == "Resign") {
             console.log("resign")
             resigned = "White" 
-            console.log(value)
             updateStatus()
         } else if (obj == "Win") {
             console.log("winner")
