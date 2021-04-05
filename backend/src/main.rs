@@ -26,8 +26,12 @@ async fn main() {
         .and(warp::fs::dir("frontend"));
 
     let routes = index.or(game_filter);
+    
 
     warp::serve(routes)
-        .run(([0, 0, 0, 0], 10000))
+        .run(([127, 0, 0, 1], 3030))
         .await;
+    //warp::serve(routes)
+    //    .run(([0, 0, 0, 0], 10000))
+    //    .await;
 }

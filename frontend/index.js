@@ -1,6 +1,6 @@
 "use strict";
 //const text = document.getElementById('text');
-const uri = 'wss://' + location.host + '/game';
+const uri = 'ws://' + location.host + '/game';
 const ws = new WebSocket(uri);
 
 let board = null
@@ -20,7 +20,7 @@ function onDragStart (source, piece, position, orientation) {
     // only pick up pieces for the side to move
     if ((game.turn() === 'w' && piece.search(/^b/) !== -1) || (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
         return false
-    }
+    , false}
     //if ((game.turn() === color && piece.search(/^b/) !== -1) ||
     //    (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
     //  return false
@@ -37,6 +37,7 @@ function onDrop (source, target) {
 
     // illegal move
     if (move === null) return 'snapback'
+
 
     ws.send('{"MovePiece":["' + source + '", "' + target + '"]}')
     updateStatus()
@@ -131,7 +132,7 @@ ws.onmessage = function(msg) {
 
         } else if (key == "Resign") {
             console.log("resign")
-            resigned = "White" 
+            resigned = obj.resign 
             updateStatus()
         } else if (obj == "Win") {
             console.log("winner")

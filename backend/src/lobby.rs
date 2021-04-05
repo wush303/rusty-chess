@@ -17,7 +17,6 @@ pub async fn lobby_loop(mut rx: Receiver<super::msg::ToLobby>) {
             super::msg::ToLobby::Join(greet_tx) => {
                 
                 //if other user disconnected while in queue remove the user.
-                println!("user joined");
                 if queue.len() == 1 && queue[0].is_closed() {
                     queue.pop(); 
                 }
@@ -42,8 +41,8 @@ pub async fn lobby_loop(mut rx: Receiver<super::msg::ToLobby>) {
                         msg::FromLobby::Accepted(from_players_tx, to_black_rx, Color::Black))
                         .expect("Expected send to black");
 
+                    //spawn new game as a seperate task
                     tokio::task::spawn(game::run_game(to_black_tx, to_white_tx, from_players_rx));
-                    println!("created new game");
                 }
             },
         }
