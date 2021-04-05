@@ -1,6 +1,6 @@
 "use strict";
 //const text = document.getElementById('text');
-const uri = 'ws://' + location.host + '/game';
+const uri = 'wss://' + location.host + '/game';
 const ws = new WebSocket(uri);
 
 let board = null
