@@ -24,21 +24,25 @@ pub async fn run_game(black: super::player::Player, white: super::player::Player
     white.unbounded_send(msg::FromGame::Hello("w".to_string())).unwrap();
 
     let mut game = ChessGame::new();
+    let mut players_left = 2;
     let mut is_finished = false;
+
 
     loop {
         
         let msg::ToGameWrap(msg, who) =
-            from_players.next().await.expect("expcted message from black");
+            from_players.next().await.expect("expcted message from players");
         match msg {
             msg::ToGame::Disconnect => {
                 //if the game hasn't finished the game will finish
+                players_left -= 1;
 
                 if !is_finished {
                     winner(&black, &white, who);
                     is_finished = true;
-                } else {
-                    //close game if both players have left
+                }
+                //if no players left, close game
+                if players_left == 0 {
                     break;
                 }
             },
@@ -61,6 +65,7 @@ pub async fn run_game(black: super::player::Player, white: super::player::Player
                             println!("{}", &reason);
 
                             winner(&black, &white, who);
+                            is_finished = true;
 
                             game.resign(who);
                             broadcast(&black, &white, msg::FromGame::Resign(reason));
@@ -73,6 +78,7 @@ pub async fn run_game(black: super::player::Player, white: super::player::Player
                         println!("{}", &reason);
 
                         winner(&black, &white, who);
+                        is_finished = true;
 
                         game.resign(who);
                         broadcast(&black, &white, msg::FromGame::Resign(reason));
@@ -85,6 +91,7 @@ pub async fn run_game(black: super::player::Player, white: super::player::Player
                     println!("{}", reason);
 
                     winner(&black, &white, who);
+                    is_finished = true;
 
                     game.resign(who);
                     broadcast(&black, &white, msg::FromGame::Resign(reason));
